@@ -1,7 +1,7 @@
 {
   "name": "dsh-skill-manager",
   "version": "0.3.7",
-  "description": "DSH 技能库：集合优先分层列表、独立集合弹窗与名称原位重命名、本地文件编辑入口与图标操作、运行版本检测、安全导入、中文命名、会话开关及可选答案快速创建。",
+  "description": "Skill management for DeepSeek Harness with collections, session-based activation, resource imports, and guided skill creation.",
   "license": "MIT",
   "dependencies": {
     "7zip-bin-full": "26.3.1"

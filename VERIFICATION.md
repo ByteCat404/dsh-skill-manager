@@ -1,38 +1,49 @@
-# 验证记录（发布摘要）
+# Verification
 
 ## v0.3.7
 
-`npm run verify` 在 Node 24 / Windows 的隔离临时技能库中通过：
+`npm run verify` passed on Windows with Node.js 24 using isolated, disposable skill libraries:
 
-- 语法、客户端构建及 ModuleLoader 加载检查。
-- 宿主 21 组、库 API 23 组、编辑 6 组、本地打开 11 组、安全 10 组、库集成。
-- 归档 11 项：10 通过，1 个可选 fixture 导出测试跳过。
-- activation 19 组、客户端 21 组及快速创建回归。
+| Area | Coverage |
+| --- | --- |
+| Build | Syntax checks, client build, and ModuleLoader validation |
+| Host integration | 21 test groups |
+| Library API | 23 test groups |
+| Edit recovery | 6 test groups |
+| Local file opening | 11 test groups using injected launchers |
+| Backend safety | 10 test groups |
+| Library integration | Stable identity, resource paths, authorization, and disposal |
+| Archives | 10 passed; 1 optional fixture-export test skipped |
+| Activation | 19 isolated contract test groups |
+| Client | 21 test groups with isolated hooks and fetch |
+| Guided creation | Presets, custom answers, navigation, and save checks |
 
-容量回归覆盖：有效分段 JSON 超过 24 MiB、19 MiB 资源上传与本地目录导入、真实 store ZIP 超过 16 MiB、四份待确认预览合计 76 MiB、大于 16 MiB 的 Markdown 导入与扫描。复制后的资源逐字节比对；路径、文件数、预览数、过期、重放、压缩比等拒绝检查继续有效。
+Capacity regressions cover streamed JSON above 24 MiB, 19 MiB resources, a stored ZIP above 16 MiB, four pending previews totaling 76 MiB, and Markdown above 16 MiB. Copied resources are compared byte-for-byte. Path, file-count, preview-count, expiry, replay, and compression-ratio checks remain covered.
 
-## 历史 UI 验证及范围
+## UI Validation Scope
 
-v0.3.6 冻结客户端曾通过隔离真实浏览器的 20 项集合弹窗与原位重命名回归，包括背景隔离、Tab 焦点圈、IME 合成事件保护、共享成员同步、busy 锁定及保存后焦点归还。
+The frozen v0.3.6 client passed 20 isolated browser regressions for collection dialogs and inline renaming. Coverage includes background isolation, Tab navigation, synthetic IME composition events, shared-member synchronization, pending-state locks, and focus restoration.
 
-这些测试使用临时技能库、模拟 API / 会话与合成输入事件，不是生产 GUI、真实操作系统输入法或真实 agent-turn 的完整证明。本地打开成功响应只代表请求交接，不保证外部窗口可见或已保存。此前报告的偶发应用内输入故障根因未被证明修复。
+These tests use temporary libraries, mocked APIs and sessions, and synthetic input events. They do **not** establish full production GUI, operating-system IME, or live agent-turn behavior. The previously reported intermittent application-wide input issue has not been proven fixed.
 
-## 重现
+Local file-opening tests do not launch real editors. A successful open response means that the request was handed off, not that an editor appeared or a file was saved.
 
-```sh
+## Reproduce
+
+```powershell
 npm ci --ignore-scripts
 npm run verify
 ```
 
-React / ReactDOM 由宿主提供。解压依赖的跨平台二进制会经 npm 安装，不存入仓库。
+React and ReactDOM are supplied by the host. Archive binaries are installed through npm and are not committed to this repository.
 
-发布副本在默认 Windows 临时目录运行时，7-Zip 创建测试归档曾返回拒绝访问；将 `TEMP` / `TMP` 指向工作区内可写测试目录后，完整 `npm run verify` 通过（未跳过归档测试、未修改产品逻辑）。具体环境原因尚未确定。如遇同类错误，请检查临时目录权限或安全软件，并使用可写临时目录重试。
+During publication checks, 7-Zip could not create a test archive in the default Windows temporary directory. The full suite passed after `TEMP` and `TMP` were set to a writable workspace directory, without skipping archive tests or changing product logic. The underlying environment cause remains undetermined. If this occurs, check temporary-directory permissions and security software, or retry with a writable temporary directory.
 
-## 运行边界
+## Runtime Limits
 
-- 未设置固定导入字节配额不等于无限容量：当前 JSON / base64 / 预览及解压仍在内存中处理，受机器内存与 Node / 宿主运行时限制。
-- 保留 2048 文件、32 份待确认预览、10 分钟过期、压缩比、并发及超时保护；ZIP64 尚不支持。
-- 技能库元数据与 activation 状态有独立控制文件保护，不属于导入容量配额。
-- 后端更新需正常退出并重新打开宿主；仅刷新页面不足以证明加载新版。
+- Removing fixed import byte quotas does not provide unlimited capacity. JSON, base64, previews, and decompression remain memory-based and subject to machine, Node.js, and host limits.
+- Protections retain a maximum of 2,048 files, 32 pending previews, ten-minute preview expiry, compression-ratio checks, bounded concurrency, and timeouts. ZIP64 is unsupported.
+- Library metadata and activation state have separate control-file limits; these are not import quotas.
+- Backend updates require fully quitting and reopening the host. A page refresh alone is insufficient.
 
-发布摘要不包含本机绝对路径、私有日志或用户技能。测试源码及合成归档 fixtures 随仓库提供。
+This summary excludes private logs, local absolute paths, and user skills. Test source and synthetic archive fixtures are included in the repository.
