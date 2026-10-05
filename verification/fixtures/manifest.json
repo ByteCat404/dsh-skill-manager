@@ -1,0 +1,30 @@
+{
+  "skills": [
+    "alpha-demo",
+    "beta-demo"
+  ],
+  "files": [
+    {
+      "path": "download/release/alpha-demo/SKILL.md",
+      "base64": "LS0tCm5hbWU6IGFscGhhLWRlbW8KZGVzY3JpcHRpb246IEFyY2hpdmUgYnJvd3NlciB2ZXJpZmljYXRpb24gYWxwaGEKLS0tCgojIEFscGhhCg=="
+    },
+    {
+      "path": "download/release/alpha-demo/references/reference.md",
+      "base64": "IyBBbHBoYSByZWZlcmVuY2UKQ29tcGxldGUgY29waWVkIHJlc291cmNlLgo="
+    },
+    {
+      "path": "download/release/beta-demo/SKILL.md",
+      "base64": "LS0tCm5hbWU6IGJldGEtZGVtbwpkZXNjcmlwdGlvbjogQXJjaGl2ZSBicm93c2VyIHZlcmlmaWNhdGlvbiBiZXRhCi0tLQoKIyBCZXRhCg=="
+    },
+    {
+      "path": "download/release/beta-demo/assets/data.bin",
+      "base64": "AP8BAoA="
+    }
+  ],
+  "formats": [
+    "zip",
+    "rar4-store",
+    "7z"
+  ],
+  "rar5": "not verified"
+}

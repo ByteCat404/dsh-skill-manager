@@ -1,0 +1,47 @@
+{
+  "name": "dsh-skill-manager",
+  "version": "0.3.7",
+  "description": "DSH 技能库：集合优先分层列表、独立集合弹窗与名称原位重命名、本地文件编辑入口与图标操作、运行版本检测、安全导入、中文命名、会话开关及可选答案快速创建。",
+  "license": "MIT",
+  "dependencies": {
+    "7zip-bin-full": "26.3.1"
+  },
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "cordis",
+    "plugin",
+    "skills"
+  ],
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./client": "./client/bundle.js",
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=22.5",
+    "dsh": ">=0.1.7-rc.2"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "files": [
+    "VERIFICATION.md",
+    "src",
+    "client",
+    "cordis.patch.yml"
+  ],
+  "scripts": {
+    "check": "node --check src/index.js && node --check src/library.js && node --check src/host-files.js && node --check src/local-open.js && node --check src/archive.js && node --check src/activation.js && node --check client/index.js && node --check client/quick-create.js",
+    "build:client": "node scripts/build-client.mjs",
+    "test": "node test/smoke.mjs && node test/library-api.mjs && node test/edit-retry.mjs && node test/local-open.mjs && node test/backend-safety.mjs && node test/library-integration.mjs && node --test test/archive.mjs && node test/activation.mjs && node test/activation-client.mjs && node test/quick-create.mjs && node scripts/verify-bundle.mjs",
+    "verify": "npm run check && npm run build:client && npm test",
+    "prepublishOnly": "npm run verify"
+  }
+}

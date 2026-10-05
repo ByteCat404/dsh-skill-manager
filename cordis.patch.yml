@@ -1,0 +1,10 @@
+# dsh-skill-manager bundle patch: contributes the plugin row into the host
+# composition when this package is installed via `dsh plugin add`.
+#
+# Host plane: it serves an HTTP API over a webServer route (skill 列表/导入/新建/删除)
+# and its client half registers the 「技能」 button on the chat input bar.
+# It must land in the host composition (this insert), never inside an agent preset.
+
+- insert:
+    - id: dsh-skill-manager
+      name: 'dsh-skill-manager'
